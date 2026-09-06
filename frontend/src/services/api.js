@@ -1,7 +1,14 @@
 import axios from 'axios';
 
+// Resolve API base URL dynamically for production (Vercel -> Render) deployment
+export const SERVER_ROOT_URL = import.meta.env.VITE_API_URL
+  ? import.meta.env.VITE_API_URL.replace(/\/$/, '')
+  : '';
+
+export const API_BASE_URL = SERVER_ROOT_URL ? `${SERVER_ROOT_URL}/api` : '/api';
+
 const API = axios.create({
-  baseURL: '/api',
+  baseURL: API_BASE_URL,
   headers: {
     'Content-Type': 'application/json',
   },

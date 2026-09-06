@@ -25,7 +25,7 @@ import {
   Smile,
   RefreshCw,
 } from 'lucide-react';
-import API from '../../services/api';
+import API, { API_BASE_URL, SERVER_ROOT_URL } from '../../services/api';
 import { io } from 'socket.io-client';
 import { useToast } from '../../context/ToastContext';
 import RazorpayModal from '../../components/RazorpayModal';
@@ -152,7 +152,7 @@ const ClientPortal = () => {
   // Setup Real-time Chat Socket
   useEffect(() => {
     if (clientData && activeTab === 'chat') {
-      const s = io('/', { transports: ['websocket', 'polling'] });
+      const s = io(SERVER_ROOT_URL || '/', { transports: ['websocket', 'polling'] });
       setSocket(s);
 
       s.emit('join_room', { role: 'client', id: clientData.client._id });
@@ -1407,7 +1407,7 @@ const ClientPortal = () => {
                           </td>
                           <td style={{ padding: '12px 16px' }}>
                             <a
-                              href={`/api/payments/${p._id}/invoice?token=${clientToken || localStorage.getItem('unfazed_client_token')}`}
+                              href={`${API_BASE_URL}/payments/${p._id}/invoice?token=${clientToken || localStorage.getItem('unfazed_client_token')}`}
                               target="_blank"
                               rel="noreferrer"
                               className="btn"

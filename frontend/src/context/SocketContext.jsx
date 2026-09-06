@@ -2,6 +2,7 @@ import React, { createContext, useContext, useEffect, useState } from 'react';
 import { io } from 'socket.io-client';
 import { useAuth } from './AuthContext';
 import { useToast } from './ToastContext';
+import { SERVER_ROOT_URL } from '../services/api';
 
 const SocketContext = createContext();
 
@@ -12,7 +13,7 @@ export const SocketProvider = ({ children }) => {
 
   useEffect(() => {
     // Initialize socket connection
-    const newSocket = io('/', {
+    const newSocket = io(SERVER_ROOT_URL || '/', {
       transports: ['websocket', 'polling'],
     });
 

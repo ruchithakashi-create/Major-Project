@@ -16,7 +16,7 @@ import {
   Mail,
   Tag,
 } from 'lucide-react';
-import API from '../../services/api';
+import API, { API_BASE_URL } from '../../services/api';
 import TopNavbar from '../../components/TopNavbar';
 import UpgradeModal from '../../components/UpgradeModal';
 import { useEntitlement } from '../../hooks/useEntitlement';
@@ -540,7 +540,7 @@ const ClientsCRM = () => {
                               </div>
                             </div>
                             <a
-                              href={`/api/payments/${p._id}/invoice`}
+                              href={`${API_BASE_URL}/payments/${p._id}/invoice?token=${localStorage.getItem('unfazed_token')}`}
                               target="_blank"
                               rel="noreferrer"
                               className="btn btn-secondary btn-sm"

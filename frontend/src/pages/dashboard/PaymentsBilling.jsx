@@ -10,7 +10,7 @@ import {
   X,
   FileText,
 } from 'lucide-react';
-import API from '../../services/api';
+import API, { API_BASE_URL } from '../../services/api';
 import TopNavbar from '../../components/TopNavbar';
 import UpgradeModal from '../../components/UpgradeModal';
 import { useEntitlement } from '../../hooks/useEntitlement';
@@ -182,7 +182,7 @@ const PaymentsBilling = () => {
                       </td>
                       <td>
                         <a
-                          href={`/api/payments/${payment._id}/invoice`}
+                          href={`${API_BASE_URL}/payments/${payment._id}/invoice?token=${localStorage.getItem('unfazed_token')}`}
                           target="_blank"
                           rel="noreferrer"
                           className="btn btn-secondary btn-sm"
