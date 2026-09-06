@@ -22,9 +22,13 @@ router.post('/webhook', handleRazorpayWebhook);
 router.get('/:id/invoice', async (req, res, next) => {
   // Try therapist auth first, then client auth
   try {
-    if (req.headers.authorization) {
+    const token =
+      (req.headers.authorization && req.headers.authorization.startsWith('Bearer')
+        ? req.headers.authorization.split(' ')[1]
+        : null) || req.query.token;
+
+    if (token) {
       const jwt = require('jsonwebtoken');
-      const token = req.headers.authorization.split(' ')[1];
       const decoded = jwt.verify(token, process.env.JWT_SECRET || 'unfazed_dev_secret');
       if (decoded.role === 'therapist') {
         req.therapistId = decoded.id;

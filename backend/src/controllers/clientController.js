@@ -2,6 +2,8 @@ const Client = require('../models/Client');
 const Session = require('../models/Session');
 const SessionNote = require('../models/SessionNote');
 const Payment = require('../models/Payment');
+const Package = require('../models/Package');
+const ClientPackage = require('../models/ClientPackage');
 const AuditLog = require('../models/AuditLog');
 const entitlementService = require('../services/entitlementService');
 
@@ -205,6 +207,8 @@ const getClientPortalData = async (req, res, next) => {
     const client = req.client;
     const sessions = await Session.find({ client: client._id }).sort({ startTime: -1 });
     const payments = await Payment.find({ client: client._id }).sort({ createdAt: -1 });
+    const clientPackages = await ClientPackage.find({ client: client._id }).populate('package');
+    const availablePackages = await Package.find({ therapist: client.therapist._id, isActive: true });
 
     res.status(200).json({
       success: true,
@@ -220,6 +224,8 @@ const getClientPortalData = async (req, res, next) => {
       therapist: client.therapist,
       sessions,
       payments,
+      clientPackages,
+      availablePackages,
     });
   } catch (error) {
     next(error);

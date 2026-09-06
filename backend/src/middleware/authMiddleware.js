@@ -50,7 +50,10 @@ const protectClient = async (req, res, next) => {
       return res.status(403).json({ success: false, message: 'Access denied. Client token required.' });
     }
 
-    const client = await Client.findById(decoded.clientId).populate('therapist', 'name slug title profilePhoto sessionPrice timezone');
+    const client = await Client.findById(decoded.clientId).populate(
+      'therapist',
+      'name slug title bio profilePhoto sessionPrice timezone registrationNumber specializations languages location cancellationPolicy'
+    );
     if (!client) {
       return res.status(401).json({ success: false, message: 'Client account not found.' });
     }
